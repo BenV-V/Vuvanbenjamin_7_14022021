@@ -9,11 +9,11 @@ router.post('/', auth, userCtrl.createPost);
 router.get('/:id', auth, userCtrl.getOnePost);
 router.delete('/:id', auth, userCtrl.deletePost);
 router.put('/:id', auth, userCtrl.modifyPost);
-router.get('/user:id/posts', auth, userCtrl.getUserPosts);
+router.get('', auth, userCtrl.getUserPosts);
 
 //Commentaires
-router.get('/:id/comments', auth, userCtrl.getAllComments);
-router.post('/:id/comment/', auth, userCtrl.createComment);
-router.delete('/comment/:id', auth, userCtrl.deleteComment);
+router.get('', auth, userCtrl.getAllComments);
+router.post('', auth, userCtrl.createComment);
+router.delete('', auth, userCtrl.deleteComment);
 
 module.exports = router;

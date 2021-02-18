@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-            <nav><router-link to="/" class="active">Se connecter</router-link> | <router-link to="/signup">S'inscrire</router-link></nav>
+            <nav><router-link to="/" class="active">Se connecter</router-link> | <router-link to="../views/signup">S'inscrire</router-link></nav>
 
     <img alt="Vue logo" src="./assets/icon-left-font.png" width="30%">
     <HelloWorld msg="connexion"/>
