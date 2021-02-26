@@ -26,13 +26,13 @@ SET time_zone = "+00:00";
 --
 DROP TABLE IF EXISTS `posts`;
 CREATE TABLE IF NOT EXISTS `posts` (
-  `id` int(11) NOT NULL,
-  `userId` int(10) UNSIGNED NOT NULL,
-  `Titres` varchar(255) NOT NULL,
-  `Contenu` longtext NOT NULL,
-  `Date_de_création` datetime NOT NULL DEFAULT current_timestamp(),
-  `Date_de_modification` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `userId` int(11) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` longtext NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+   PRIMARY KEY (`id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -40,13 +40,12 @@ CREATE TABLE IF NOT EXISTS `posts` (
 -- Structure de la table `comments`
 --
 CREATE TABLE `comments` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `postId` int(10) UNSIGNED NOT NULL,
-  `userId` int(10) UNSIGNED NOT NULL,
-  `Titre` varchar(250) NOT NULL,
-  `Date_de_création` datetime NOT NULL DEFAULT current_timestamp(),
-  `Contenu` longtext NOT NULL,
-   PRIMARY KEY (`id`), 
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `postId` int(11) UNSIGNED NOT NULL,
+  `userId` int(11) UNSIGNED NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `content` longtext NOT NULL,
+   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -55,15 +54,21 @@ CREATE TABLE `comments` (
 --
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `Nom` varchar(255) NOT NULL,
-  `Prénom` varchar(255) NOT NULL,
-  `MotdePasse` varchar(80) NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `lastName` varchar(255) NOT NULL,
+  `firstName` varchar(255) NOT NULL,
+  `password` varchar(80) NOT NULL,
   `email` varchar(80) NOT NULL,
-  `admin` tinyint(2) NOT NULL DEFAULT 0
-  PRIMARY KEY (`id`),
+  `admin` tinyint(2) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+--
+-- Déchargement des données de la table `users`
+--
+
+INSERT INTO `users` (`id`, `lastName`, `firstName`, `password`, `email`, `admin`) VALUES
+(1, 'Admin', 'Admin', 'mettreunmotdepassesécurisé', 'mail@mail.fr', 1);
 -- Index pour la table `comments`
 --
 ALTER TABLE `comments`
@@ -77,15 +82,9 @@ ALTER TABLE `posts`
   ADD KEY `fk_userId_posts` (`userId`);
 
 --
--- Déchargement des données de la table `users`
---
-
-INSERT INTO `users` (`id`, `Nom`, 'Prénom', `MotdePasse`, `email`, `admin`) VALUES
-(1, 'Admin', 'Admin', 'mettreunmotdepassesécurisé', 'mail@mail.fr', 1);
-COMMIT;
---
 -- Index pour les tables déchargées
 --
+
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
@@ -94,6 +93,7 @@ ALTER TABLE `users`
 --
 --- Contraintes pour les tables déchargées
 --
+
 --
 -- Contraintes pour la table `comments`
 --
@@ -101,10 +101,11 @@ ALTER TABLE `comments`
   ADD CONSTRAINT `fk_postId_comments` FOREIGN KEY (`postId`) REFERENCES `posts` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_userId_comments` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
+--
 -- Contraintes pour la table `posts`
 --
 ALTER TABLE `posts`
-  ADD CONSTRAINT `fk_userId_posts` FOREIGN KEY (`userId`) REFERENCES `utilisateurs` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_userId_posts` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
