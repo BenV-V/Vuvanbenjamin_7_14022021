@@ -5,7 +5,8 @@ const sql = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
-    database: process.env.DB_NAME
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT
 });
 
 sql.connect(function (err) {
@@ -13,7 +14,7 @@ sql.connect(function (err) {
         return console.error('error: ' + err.message);
     }
 
-    console.log('Connection à la base de donnée réussie !');
+    console.log('Connexion à la base de donnée réussie !');
 });
 
 module.exports = sql;
