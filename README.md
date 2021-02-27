@@ -1,4 +1,13 @@
-# Vuvanbenjamin_7_14022021
+# cd backend
+
+## Project setup
+```
+npm install
+```
+### Compiles and hot-reloads for development
+```
+npm run start
+```
 
 # cd frontend
 
