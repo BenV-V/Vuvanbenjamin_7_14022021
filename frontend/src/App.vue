@@ -1,37 +1,20 @@
 <template>
-  <div id="app">
-            <nav><router-link to="/" class="active">Se connecter</router-link> | <router-link to="../views/signup">S'inscrire</router-link></nav>
-
-    <img alt="Vue logo" src="./assets/icon-left-font.png" width="30%">
-    <HelloWorld msg="connexion"/>
+  <div id="app">   
+    <router-view />
+    
   </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
-
 <style>
-nav{
-    font-size: 1.05rem;
-    margin: 20px;
+
+html{
+  box-sizing: border-box;
 }
 
-.active{
-    color: red;
-    font-weight: bold;
+body{
+  margin: 0;
 }
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 20px;
