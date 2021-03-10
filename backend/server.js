@@ -1,26 +1,47 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const userRoutes = require('./routes/user')
-require('dotenv').config({path: './config/.env'});
-const db = require('./config/db')
-const app = express();
- 
+const http = require('http');
+const app = require('./app');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+const normalizePort = val => {
+  const port = parseInt(val, 10);
 
-// routes
-app.use('/api/user', userRoutes);
+  if (isNaN(port)) {
+    return val;
+  }
+  if (port >= 0) {
+    return port;
+  }
+  return false;
+};
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 
-// serveur
-app.listen(process.env.PORT, () => {
-    console.log(`Listening on port ${process.env.PORT}`);
-    db.query('SELECT * FROM posts', (error, result, field) => {
+const errorHandler = error => {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+  const address = server.address();
+  const bind = typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges.');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use.');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+};
 
-      console.table(result);
-    });
-    db.query('SELECT * FROM users', (error, result, field) => {
+const server = http.createServer(app);
 
-      console.table(result);
-    });
-  })
+server.on('error', errorHandler);
+server.on('listening', () => {
+  const address = server.address();
+  const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
+  console.log('Listening on ' + bind);
+});
+
+server.listen(port);
