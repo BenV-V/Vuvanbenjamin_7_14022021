@@ -1,7 +1,7 @@
 <template>
     <div class="nav">
         <router-link to='/'><h1><img src="../assets/icon-left-font.png" alt="Groupomania logo"></h1></router-link>
-        <nav><router-link to='/profile'><div>Mon compte</div></router-link><div id="disconnect-btn" @click = disconnect()>Se déconnecter</div></nav>
+        <nav><router-link to='/profile'><div class="account">Mon compte</div></router-link><div class="account" id="disconnect-btn" @click = disconnect()>Se déconnecter</div></nav>
     </div> 
 </template>
 
@@ -17,37 +17,31 @@ export default {
 }
 </script>
 
-<style>
-    .nav
-    {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        padding: 30px 70px 20px 70px;
-    }
-    .header img{
-        width: 70%;
-    }
-    nav{
-        display: flex;
-    }
-    nav div{
-        margin-left: 30px;
-        font-weight: bold;
-        cursor: pointer;
-        transition-duration: .2s;
-    }
-    .fas{
-        font-size: 1.5rem;
-    }
-    nav div:hover{
-        color: rgb(117, 117, 117);
-    }
-    @media (max-width: 670px) {
-        .header{
-            flex-direction: column;
-            padding: 30px 20px 20px 20px;
-        }
-    }
+<style scoped>
+img{
+    width: 50%;
+}
+.nav{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+nav{
+    display: flex;
+}
+.account{
+    margin-left: 10px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-radius: 20px;
+    color:white;
+    background-color: red;
+    padding: 10px 20px 10px 20px;
+}
+.account:hover{
+  transform: scale(1.05);
+  transition-duration: 200ms;
+}
 </style>
