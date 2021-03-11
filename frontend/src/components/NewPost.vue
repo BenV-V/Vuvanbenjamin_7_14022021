@@ -103,8 +103,11 @@ export default {
     input{
         font-size: 1rem;
         padding: 10px;
-        margin-bottom: 15px;
-        text-align: left;   
+        margin-bottom: 0 auto 15px auto;
+        text-align: left; 
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;  
     }
     label{
         color: red;
@@ -114,7 +117,9 @@ export default {
     }
     #newPost_content{
         height: 200px;
-        width: 100%;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
         padding: 10px;
         resize: none;
         overflow-y: scroll;

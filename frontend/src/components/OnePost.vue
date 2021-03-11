@@ -138,7 +138,7 @@ export default {
         background-color: rgb(43, 42, 42);
         border: none;
         border-radius: 30px;
-        margin: 0px 10px 0 10px;
+        margin: 20px 10px 0 10px;
         outline:none;  
     }
     button:hover{
