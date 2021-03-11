@@ -1,7 +1,7 @@
 <template>
     <div class="nav">
         <router-link to='/'><h1><img src="../assets/icon-left-font.png" alt="Groupomania logo"></h1></router-link>
-        <nav><router-link to='/profile'><div class="account">Mon compte</div></router-link><div class="account" id="disconnect-btn" @click = disconnect()>Se déconnecter</div></nav>
+        <nav><router-link to='/profile'><div class="account">Mon compte</div></router-link><div class="account" id="disconnect_btn" @click = disconnection()>Se déconnecter</div></nav>
     </div> 
 </template>
 
@@ -9,7 +9,7 @@
 export default {
     name: 'Nav',
     methods: {
-        disconnect(){
+        disconnection(){
             localStorage.removeItem('user');
             location.href = "/";
         }

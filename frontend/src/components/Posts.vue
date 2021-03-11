@@ -3,10 +3,11 @@
         <article class="post" v-for = "post in posts" :key="post.id">
             <router-link :to="{ name: 'Post', params: { id: post.id } }">
                 <div class="header">
-                    <span class="info">Posté par {{post.firstname}} {{post.lastname}} le {{dateTimeFormat(post.date)}}</span>
+                    <span class="info">Posté par {{post.firstname}} {{post.lastname}} le {{dateTimeFormat(post.created_at)}}</span>
                 </div>  
                 <h2 class="title">{{post.title}}</h2>
                 <div class="content">{{post.content}}</div>
+                <div class="image">{{post.imageUrl}}</div>                
             </router-link>
         </article>
     </div>
@@ -40,8 +41,9 @@ export default {
                 this.posts = res.data;
             })
         },
-        dateTimeFormat(date){
-            return new Date(date).toLocaleDateString('fr-FR', { weekday:'long', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' });
+        dateTimeFormat(created_at){
+            const event = new Date(created_at);
+            return event.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' });
         }
     }
 }

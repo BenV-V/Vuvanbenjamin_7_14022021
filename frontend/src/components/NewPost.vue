@@ -9,9 +9,6 @@
                 <input id="newPost_title" type="text" placeholder="Que voulez vous nous dire ?" required>
                 <label for="content">Contenu</label>
                 <textarea id="newPost_content" v-model="content" placeholder="Souhaitez-vous expliquer plus précisément vos pensées ?"></textarea>
-                <div class="custom-file">
-                    <input name="image" id="image" type="file" class="custom-file-input" accept="image*" v-on:change="sendFile()"/>
-                </div>
                 <button id="newPost_btn" type="submit" >Publier</button>
             </form>
           </div>
@@ -27,21 +24,18 @@ export default {
         return{
             visible: false,
             content: '',
-            image: "",
         }
     },
     methods: {
         createPost(){
             const title = document.getElementById("newPost_title").value;
             const content = this.content;
-            const image = document.getElementById("image").value;
 
             axios.post(`http://localhost:5000/api/posts/`,
                     {
                         userId: this.$user.userId,
                         title,
                         content,
-                        image
                     },
                     {
                         headers: {
@@ -51,12 +45,9 @@ export default {
                     }
                 )
                 .then( this.visible = false)
-                .then(this.$emit('Posts', this.$data));
+                .then(this.$emit('Posts'));
                 location.reload();
         },
-            sendFile() {
-            this.$data.image = this.filename;
-    },
     }
 
 }
