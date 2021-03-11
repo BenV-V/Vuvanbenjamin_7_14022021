@@ -11,10 +11,7 @@ exports.getAllPosts = (req, res, next) => {
 };
 // La nouvelle publication
 exports.createPost = (req, res, next) => {
-    const imageUrl = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
-    let values = [imageUrl];
-    db.query(`INSERT INTO posts VALUES (NULL, '${req.body.userId}', '${req.body.title}', '${req.body.content}', NOW(), NULL )`,
-    values, (error, result, field) => {
+    db.query(`INSERT INTO posts VALUES (NULL, '${req.body.userId}', '${req.body.title}', '${req.body.content}', NOW(), NULL )`, (error, result, field) => {
         if (error) {
             return res.status(400).json({error});
         }
