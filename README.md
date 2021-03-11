@@ -4,7 +4,7 @@
 
 ## Base de données
 ```
-Prenez la base de données disponible dans C:\Users\benja\Desktop\P7BV\backend\database\groupomaniabase.sql
+Prenez la base de données disponible dans backend\database\groupomaniabase.sql
 
 Créer un fichier .env dans le backend en copiant les données suivantes : 
 PORT=5000
