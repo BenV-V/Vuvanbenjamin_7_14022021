@@ -35,8 +35,8 @@ npm run start
 ```
 npm install
 
-Veuillez vérifier si core-js, json-parser, path, vuejs et axios sont installés, si ce n'est pas le cas, merci de rentrer :
-npm i axios jsonparser path @vue/cli core-js
+Veuillez vérifier si core-js, json-parser, path, vuejs et axios vue-router sont installés, si ce n'est pas le cas, merci de rentrer :
+npm i axios jsonparser path @vue/cli core-js vue-router
 
 en supprimant les frameworks que vous detenez déjà
 ```
