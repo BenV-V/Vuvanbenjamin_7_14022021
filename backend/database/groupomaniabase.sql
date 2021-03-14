@@ -78,9 +78,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `lastname`, `firstname`, `password`, `email`, `admin`) VALUES
-(1, 'Admin', 'Admin', 'Groupomania.19/03/21', 'admin@groupomania.fr', 1),
-(2, 'Vu Van', 'Ben', 'testdeben', 'Ben@groupomania.fr',0 ),
-(3, 'Vu Van', 'Noémie', 'test', 'benjamin.vu-van@groupomania.fr',0 );
+(1, 'Admin', 'Admin', '37c7dbcb2ce40feef2e4761989280eed891a8147', 'admin@groupomania.fr', 1),
+(2, 'Vu Van', 'Ben', 'c178d6544299a1d92cf7c34157e02c97ab7a7339', 'Ben@groupomania.fr',0 ),
+(3, 'Vu Van', 'Noémie', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'benjamin.vu-van@groupomania.fr',0 );
 
 -- Index pour la table `comments`
 --

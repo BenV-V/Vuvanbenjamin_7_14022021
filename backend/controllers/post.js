@@ -9,9 +9,10 @@ exports.getAllPosts = (req, res, next) => {
         return res.status(200).json(result);
     });
 };
+
 // La nouvelle publication
 exports.createPost = (req, res, next) => {
-    db.query(`INSERT INTO posts VALUES (NULL, '${req.body.userId}', '${req.body.title}', '${req.body.content}', NOW(), NULL )`, (error, result, field) => {
+    db.query(`INSERT INTO posts VALUES (NULL, "${req.body.userId}", "${req.body.title}", "${req.body.content}", NOW(), NULL )`, (error, result, field) => {
         if (error) {
             return res.status(400).json({error});
         }
@@ -39,7 +40,7 @@ exports.deletePost = (req, res, next) => {
 };
 // Modifier la publication
 exports.modifyPost = (req, res, next) => {
-    db.query(`UPDATE posts SET title = '${req.body.title}', content = '${req.body.content}' WHERE posts.id = ${req.params.id}`, (error, result, field) => {
+    db.query(`UPDATE posts SET title = "${req.body.title}", content = "${req.body.content}" WHERE id = ${req.params.id}`, (error, result, field) => {
         if (error) {
             return res.status(400).json({error});
         }
