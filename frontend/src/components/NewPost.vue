@@ -6,10 +6,10 @@
             <span class="form_close"  @click="visible = false">X Fermer</span>
             <form class="newPostForm" @submit.prevent="createPost()">
                 <label for="title">Titre</label>
-                <input id="newPost_title" type="text" placeholder="Que voulez vous nous dire ?" required>
+                <input id="newPost_title" type="text" v-model="title" placeholder="Que voulez vous nous dire ?" required>
                 <label for="content">Contenu</label>
                 <textarea id="newPost_content" v-model="content" placeholder="Souhaitez-vous expliquer plus précisément vos pensées ?"></textarea>
-                <button id="newPost_btn" type="submit" >Publier</button>
+                <button id="newPost_btn" type="submit">Publier</button>
             </form>
           </div>
       </div>
@@ -24,11 +24,12 @@ export default {
         return{
             visible: false,
             content: '',
+            title:'',
         }
     },
     methods: {
-        createPost(){
-            const title = document.getElementById("newPost_title").value;
+        createPost() {
+            const title = this.title;
             const content = this.content;
 
             axios.post(`http://localhost:5000/api/posts/`,
@@ -42,15 +43,14 @@ export default {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${this.$token}`
                         }
-                    }
-                )
-                .then( this.visible = false)
-                .then(this.$emit('Posts'));
-                location.reload();
-        },
-    }
+                    })
+                .then(this.visible = false)
+                .then(this.$emit('Posts'))
 
-}
+            },
+            
+        }
+    }
 </script>
 
 <style scoped> 

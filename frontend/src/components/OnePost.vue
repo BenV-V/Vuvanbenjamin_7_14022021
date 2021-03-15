@@ -1,12 +1,12 @@
 <template>
     <div class="onePost">
         <div class="post_modify" v-if="!modify">
-            <h2 class="post_title">{{this.post.title}}</h2>
-            <div class="post_content" v-html="this.post.content"></div>
+            <h2 class="post_title">{{post.title}}</h2>
+            <div class="post_content" v-html="post.content"></div>
         </div>
         <div class="modify" v-if="modify">
-            <input type="text" id="modify_title" v-model="this.post.title">
-            <textarea id="modify_content" v-model="modifyContent"></textarea>
+            <input type="text" id="modify_title" v-model="post.title">
+            <textarea id="modify_content" v-model="post.content"></textarea>
         </div>
         <button v-if="authorized && !modify" @click="modify = true">Modifier</button>
         <button v-if="modify" @click="modify = false">Annuler</button>
@@ -23,8 +23,7 @@ export default {
     
     data(){
         return{
-            modifyContent:'',
-            post: [],
+            post: {},
             authorized: false,
             modify: false
         }
@@ -62,12 +61,12 @@ export default {
                     }
                 }
             )
-            .then(location.href = "/");
+            this.$router.go(-1)
         },
         modifyPost(){
             const postId = this.$route.params.id;
-            const title = document.querySelector('#modify_title').value;
-            const content = this.modifyContent;
+            const title = this.post.title;
+            const content = this.post.content;
             axios.put(`http://localhost:5000/api/posts/${postId}`,
                 {
                     postId,
@@ -81,7 +80,7 @@ export default {
                     }
                 }
             )
-            .then(location.href = "/");
+            this.$router.go(-1)
         },
     }
 }

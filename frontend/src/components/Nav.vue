@@ -1,6 +1,7 @@
 <template>
     <div class="nav">
-        <router-link to='/'><h1><img src="../assets/icon-left-font.png" alt="Groupomania logo"></h1></router-link>
+        <router-link to='/'><img src="../assets/icon-left-font.png" alt="Groupomania logo"></router-link>
+        <router-link to='/mediapage'><h3>Partagez vos photos !</h3></router-link>
         <nav><router-link to='/profile'><div class="account">Mon compte</div></router-link><div class="account" id="disconnect_btn" @click = disconnection()>Se déconnecter</div></nav>
     </div> 
 </template>
@@ -39,6 +40,14 @@ nav{
     color:white;
     background-color: red;
     padding: 10px 20px 10px 20px;
+}
+h3{
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-radius: 20px;
+    color:white;
+    background-color: red;
+    padding: 10px 20px 10px 20px;   
 }
 .account:hover{
   transform: scale(1.05);

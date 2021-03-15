@@ -6,8 +6,10 @@
                     <span class="info">Posté par {{post.firstname}} {{post.lastname}} le {{dateTimeFormat(post.date)}}</span>
                 </div>  
                 <h2 class="title">{{post.title}}</h2>
-                <div class="content">{{post.content}}</div>
-                <div class="image">{{post.imageUrl}}</div>                
+                <div class="content">{{post.content}}</div> 
+                    <div class="card-img-top w-75 mx-auto" v-if="post.attachement">
+                        <img :src="post.attachement" alt="..." class="w-100" />
+                    </div>            
             </router-link>
         </article>
     </div>

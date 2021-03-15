@@ -16,6 +16,11 @@ const routes = [{
     component: () => import('../views/Signup.vue')
   }, 
   {
+    path: '/file',
+    name: 'MediaPage',
+    component: () => import('../views/MediaPage.vue')
+  }, 
+  {
     path: '/post/:id',
       name: 'Post',
       component: Post

@@ -1,9 +1,6 @@
 <template>
     <div class="comments">  
-        <form @submit.prevent= createComment()>
-            <textarea name="newComment" id="new_comment" placeholder="Laissez un commentaire..." required></textarea>
-            <button type="submit" id="send">Envoyer</button>
-        </form>
+
         <h2 v-if="comments.length > 0">Commentaires :</h2>
         <div class="comment" v-for="comment in comments" :key="comment.id">
             <div class="comment_info">Par {{comment.firstname}} {{comment.lastname}} le {{dateTimeFormat(comment.created_at)}} 
@@ -11,7 +8,10 @@
             </div>
             {{comment.content}}
         </div>
-
+        <form @submit.prevent= createComment()>
+            <textarea name="newComment" id="new_comment" placeholder="Laissez un commentaire..." required></textarea>
+            <button type="submit" id="send">Envoyer</button>
+        </form>
     </div>
 </template>
 <script>
