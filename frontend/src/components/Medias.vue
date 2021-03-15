@@ -1,8 +1,13 @@
 <template>
     <div class="files">  
-                <div class="header">
-                    <span class="info">Si les images sont dessous, c'est que ça marche ! </span>
-                </div>             
+        <router-link to='/'>
+            <span class="info">Vous souhaitez réagir aux photos de vos collègues, parlez-en dans le fil d'actualité ! (Si les images sont dessous, c'est que ça marche !) 
+            </span>
+        </router-link>      
+        <div class="listfiles">
+            <h3>Ci-dessous les dernières photos publiées :</h3> 
+            {{files}}
+        </div>      
     </div>
 </template>
 
@@ -31,7 +36,7 @@ export default {
                     }
                 })
             .then(res => {
-                this.files = res.data;
+                this.files = res.data
             })
         },
     }
@@ -43,11 +48,17 @@ export default {
         margin-top: 40px;
     }
     span{
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
         padding: 13px;
         font-size: 1rem;
         color: white;
         background-color: rgb(255, 0, 0);
         border: none;
         border-radius: 20px;
+    }
+    h3{
+        margin-top: 20px;
     }
 </style>
