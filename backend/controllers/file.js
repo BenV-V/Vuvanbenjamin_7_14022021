@@ -19,7 +19,7 @@ exports.saveFile = (req, res) => {
 }
 
 exports.getFile = (req, res) => {
-    const path = `${imgPath}/Benjamin.png`;
+    const path = `${imgPath}/vue-component2.png`;
     fs.readFile(path, function (err, file) {
         if (err) {
             res.status(500).json(err)
