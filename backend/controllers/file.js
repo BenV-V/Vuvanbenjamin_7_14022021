@@ -19,13 +19,13 @@ exports.saveFile = (req, res) => {
 }
 
 exports.getFile = (req, res) => {
-    const fileName = req.body.fileName
-    const path = `${imgPath}/${fileName}`;
+    const path = `${imgPath}/Benjamin.png`;
     fs.readFile(path, function (err, file) {
         if (err) {
             res.status(500).json(err)
             return console.log(err);
         }
+        console.log('ça marche !!')
         const buf = Buffer.from(file, 'base64');
         res.status(200).json(buf)
     })
