@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
+const fileRoutes = require('./routes/file');
+
 const path = require('path');
 
 const app = express();
@@ -16,11 +18,15 @@ app.use((req, res, next) => {
   });
 
 // Permet de mettre les données en Json afin de les exploiter
-app.use(bodyParser.json());
-
+app.use(bodyParser.urlencoded({
+  limit: "50mb",
+  extended: false
+}));
+app.use(bodyParser.json({limit: "50mb"}));
 //Gestion de l'image
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/auth', userRoutes);
 app.use('/api/posts', postRoutes);
+app.use('/api/file', fileRoutes);
 
 module.exports = app;

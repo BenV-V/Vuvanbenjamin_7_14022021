@@ -5,11 +5,13 @@ const userCtrl = require('../controllers/post');
 const multer = require("../middleware/multer-config"); 
 
 //Publications
+//localhost:500/api/post
+
 router.get('/', userCtrl.getAllPosts);
 router.post('/', multer, userCtrl.createPost);
 router.get('/:id', userCtrl.getOnePost);
-router.delete('/:id', auth,  userCtrl.deletePost);
-router.put('/:id', auth, userCtrl.modifyPost);
+router.delete('/:id',  userCtrl.deletePost);
+router.put('/:id', multer, userCtrl.modifyPost);
 
 //Commentaires
 router.get('/:id/comments', userCtrl.getAllComments);

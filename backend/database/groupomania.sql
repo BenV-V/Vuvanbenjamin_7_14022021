@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `userId` int(11) UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL,
   `content` longtext NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY (`id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -52,7 +52,8 @@ INSERT INTO `posts` (`id`, `userId`, `title`, `content`, `created_at`, `updated_
 
 CREATE TABLE `comments` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `postId` int(11) UNSIGNED NOT NULL,
+  `postId` int(11) UNSIGNED,
+  'file' string,
   `userId` int(11) UNSIGNED NOT NULL,
   `content` longtext NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),

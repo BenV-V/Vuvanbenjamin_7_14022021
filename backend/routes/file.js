@@ -6,6 +6,6 @@ const multer = require("../middleware/multer-config");
 
 router.get('/', multer, userCtrl.getAllFiles);
 router.post('/', multer, userCtrl.saveFile);
-router.delete('/:id', auth, userCtrl.deleteFile);
+router.delete('/', userCtrl.deleteFile);
 
 module.exports = router;

@@ -19,12 +19,17 @@ exports.saveFile = (req, res) => {
         res.status(201)
     });
 }
+
 exports.deleteFile = (req, res, next) => {
-    const fileName = `${req.body.userId}_${Date().getTime()}_${req.body.filename}`
-    fs.unlink(imgPath, fileName, () => {
-        res.status(200).json({ message: 'Photo supprimée !'})       
+    const filename = `images/${req.body.userId}_${req.body.date}_${req.body.fileName}`
+    fs.unlink(filename, (err) => {
+        if (err) {
+            res.status(500).json(err)
+            return console.log(err);
+        }
+        res.status(201).json({ message: 'Photo supprimée !'})   
     });
-};
+}
 
 exports.getAllFiles = (req, res) => {
     let fileResults = []
@@ -37,7 +42,13 @@ exports.getAllFiles = (req, res) => {
             const tokens = imgName.split('_')
             const userId = tokens[0]
             const date = tokens[1]
-            const fileName = tokens[2]
+            let fileName = ''
+            for(let i = 2; i < tokens.length; i++) {
+                if (i > 2) {
+                    fileName += '_'
+                }
+                fileName += tokens[i]
+            }
             getUser(userId, (user) => {
                 if (user) {
                     fileResults.push({
