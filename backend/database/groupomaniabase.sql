@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `userId` int(11) UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL,
   `content` longtext NOT NULL,
+  `imageUrl` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY (`id`) 
@@ -39,10 +40,10 @@ CREATE TABLE IF NOT EXISTS `posts` (
 -- Déchargement des données de la table `posts`
 --
 
-INSERT INTO `posts` (`id`, `userId`, `title`, `content`, `created_at`, `updated_at`) VALUES
-(1, 1, 'test de titre', 'ceci est un test pour voir si ça marche', '2021-02-27 11:59:56', '2021-02-27 11:59:56'),
-(2, 2, 'test de second titre', 'ceci est un deuxième test pour voir si ça marche et ça marche super bien','2021-02-27 11:59:56', '2021-02-27 11:59:56'),
-(3, 1, 'test de titre fait par la même personne que le premier', 'ceci est un test pour voir si on voit les posts d''un même utilisateur', '2021-02-27 11:59:56', '2021-02-27 11:59:56');
+INSERT INTO `posts` (`id`, `userId`, `title`, `content`, `imageUrl`, `created_at`, `updated_at`) VALUES
+(1, 1, 'test de titre', 'ceci est un test pour voir si ça marche', Null, '2021-02-27 11:59:56', '2021-02-27 11:59:56'),
+(2, 2, 'test de second titre', 'ceci est un deuxième test pour voir si ça marche et ça marche super bien', Null, '2021-02-27 11:59:56', '2021-02-27 11:59:56'),
+(3, 1, 'test de titre fait par la même personne que le premier', 'ceci est un test pour voir si on voit les posts d''un même utilisateur', Null, '2021-02-27 11:59:56', '2021-02-27 11:59:56');
 
 -- --------------------------------------------------------
 
@@ -78,9 +79,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `lastname`, `firstname`, `password`, `email`, `admin`) VALUES
-(1, 'Admin', 'Admin', '37c7dbcb2ce40feef2e4761989280eed891a8147', 'admin@groupomania.fr', 1),
-(2, 'Vu Van', 'Ben', 'c178d6544299a1d92cf7c34157e02c97ab7a7339', 'Ben@groupomania.fr',0 ),
-(3, 'Vu Van', 'Noémie', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'benjamin.vu-van@groupomania.fr',0 );
+(1, 'Admin', 'Admin', 'Groupomania.19/03/21', 'mail@groupomania.fr', 1),
+(2, 'Vu Van', 'Ben', 'testdeben', 'Ben@groupomania.fr',0 ),
+(3, 'Vu Van', 'Noémie', 'test', 'benjamin.vu-van@groupomania.fr',0 );
 
 -- Index pour la table `comments`
 --

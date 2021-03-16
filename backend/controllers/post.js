@@ -9,10 +9,13 @@ exports.getAllPosts = (req, res, next) => {
         return res.status(200).json(result);
     });
 };
-
 // La nouvelle publication
 exports.createPost = (req, res, next) => {
-    db.query(`INSERT INTO posts VALUES (NULL, "${req.body.userId}", "${req.body.title}", "${req.body.content}", NOW(), NULL )`, (error, result, field) => {
+    console.log(req)
+    const imageUrl = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+    let values = [imageUrl];
+    db.query(`INSERT INTO posts VALUES (NULL, '${req.body.userId}', '${req.body.title}', '${req.body.content}', '${req.file.filename}', NOW(), NULL )`,
+    values, (error, result, field) => {
         if (error) {
             return res.status(400).json({error});
         }
@@ -40,7 +43,16 @@ exports.deletePost = (req, res, next) => {
 };
 // Modifier la publication
 exports.modifyPost = (req, res, next) => {
-    db.query(`UPDATE posts SET title = "${req.body.title}", content = "${req.body.content}" WHERE id = ${req.params.id}`, (error, result, field) => {
+    db.query(`UPDATE posts SET title = '${req.body.title}', content = '${req.body.content}' WHERE posts.id = ${req.params.id}`, (error, result, field) => {
+        if (error) {
+            return res.status(400).json({error});
+        }
+        return res.status(200).json(result);
+    });
+};
+// Choisir les publications d'un utilisateur
+exports.getUserPosts = (req, res, next) => {
+    db.query(`SELECT * FROM posts WHERE posts.user_id = ${req.params.id}`, (error, result, field) => {
         if (error) {
             return res.status(400).json({error});
         }
@@ -59,7 +71,7 @@ exports.getAllComments = (req, res, next) => {
     };
 // Nouveau commentaire
 exports.createComment = (req, res, next) => {
-    db.query(`INSERT INTO comments VALUES (NULL, ${req.params.id}, ${req.body.userId}, "${req.body.content}", NOW() )`, (error, result, field) => {
+    db.query(`INSERT INTO comments VALUES (NULL, ${req.params.id}, ${req.body.userId}, '${req.body.content}', NOW() )`, (error, result, field) => {
         if (error) {
             return res.status(400).json({error});
         }

@@ -22,18 +22,6 @@ exports.signup = (req, res, next) => {
       }
     })
 };
-
-exports.getUser = (userId, next) => {
-  db.query(`SELECT * FROM users WHERE id = ?`,[userId],(error, result, field) => {
-    if (error) {
-      return res.status(500).json(error)
-    }
-    if (!result || result.length < 1) {
-      return res.status(404).json({ message: 'Utilisateur non trouvé !' });
-    }
-    return next(result[0])
-  })
-}
   
   //Si utilisateur déjà existant
   exports.login = (req, res, next) => {
@@ -42,7 +30,7 @@ exports.getUser = (userId, next) => {
         if (!user) {
           return res.status(404).json({ message: 'Utilisateur non trouvé !' });
         }
-        if (sha1(req.body.password) == user.password){
+        if (sha1(req.body.password) == sha1(user.password)){
           return res.status(200).json({
             userId: user.id,
             lastname: user.lastname,
