@@ -59,7 +59,7 @@ exports.getAllComments = (req, res, next) => {
     };
 // Nouveau commentaire
 exports.createComment = (req, res, next) => {
-    db.query(`INSERT INTO comments VALUES (NULL, ${req.params.id}, ${req.body.userId}, '${req.body.content}', NOW() )`, (error, result, field) => {
+    db.query(`INSERT INTO comments VALUES (NULL, ${req.params.id}, ${req.body.userId}, "${req.body.content}", NOW() )`, (error, result, field) => {
         if (error) {
             return res.status(400).json({error});
         }

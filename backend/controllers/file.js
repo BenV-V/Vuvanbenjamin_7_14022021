@@ -19,17 +19,13 @@ exports.saveFile = (req, res) => {
         res.status(201)
     });
 }
-/*exports.deleteFiles = (req, res) => {
-    const date = new Date().getTime()
-    const fileName = `${req.body.userId}_${date}_${req.body.filename}`
-    const path = `${imgPath}/${fileName}`;
-    fs.readdir(imgPath, (err, file) => {
-        if (err) {
-            return res.status(500).json(err)
-        } else 
-        fs.unlink(path,file) 
-    })
-},*/
+exports.deleteFile = (req, res, next) => {
+    const fileName = `${req.body.userId}_${Date().getTime()}_${req.body.filename}`
+    fs.unlink(imgPath, fileName, () => {
+        res.status(200).json({ message: 'Photo supprimée !'})       
+    });
+};
+
 exports.getAllFiles = (req, res) => {
     let fileResults = []
     fs.readdir(imgPath, (err, files) => {
