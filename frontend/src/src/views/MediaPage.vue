@@ -2,8 +2,8 @@
   <div class="mediapage">
     <Login v-if="!connected"/>
     <Nav v-if="connected"/>   
-    <Media v-if="connected"/> 
     <Medias v-if="connected"/> 
+    <Media v-if="connected"/> 
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
     <div class="nav">
         <router-link to='/'><img src="../assets/icon-left-font.png" alt="Groupomania logo"></router-link>
-        <router-link to='/mediapage'><h3>Partagez vos photos !</h3></router-link>
+        <router-link to='/file'><h3>Partagez vos photos !</h3></router-link>
         <nav><router-link to='/profile'><div class="account">Mon compte</div></router-link><div class="account" id="disconnect_btn" @click = disconnection()>Se déconnecter</div></nav>
     </div> 
 </template>

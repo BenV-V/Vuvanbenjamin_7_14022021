@@ -16,7 +16,7 @@ const routes = [{
     component: () => import('../views/Signup.vue')
   }, 
   {
-    path: '/mediapage',
+    path: '/file',
     name: 'MediaPage',
     component: () => import('../views/MediaPage.vue')
   }, 
