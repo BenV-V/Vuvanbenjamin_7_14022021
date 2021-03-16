@@ -47,15 +47,6 @@ exports.modifyPost = (req, res, next) => {
         return res.status(200).json(result);
     });
 };
-// Choisir les publications d'un utilisateur
-exports.getUserPosts = (req, res, next) => {
-    db.query(`SELECT * FROM posts WHERE posts.user_id = ${req.params.id}`, (error, result, field) => {
-        if (error) {
-            return res.status(400).json({error});
-        }
-        return res.status(200).json(result);
-    });
-};
 // Tous les commentaires
 exports.getAllComments = (req, res, next) => {
     db.query(`SELECT users.id, users.lastname, users.firstname, comments.id,comments.content, comments.userId, comments.created_at FROM users INNER JOIN comments ON users.id = comments.userId WHERE comments.postId = ${req.params.id} ORDER BY comments.created_at DESC`,

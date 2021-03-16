@@ -3,9 +3,8 @@ const router = express.Router();
 const userCtrl = require('../controllers/file');
 const multer = require("../middleware/multer-config"); 
 
-router.get('/', multer, userCtrl.getFile);
+router.get('/', multer, userCtrl.getAllFiles);
 router.post('/', multer, userCtrl.saveFile);
-//router.get('/:id', userCtrl.getOnePost);
-//router.delete('/:id', auth,  userCtrl.deletePost);
+//router.delete('/',  userCtrl.deleteFile);
 
 module.exports = router;
