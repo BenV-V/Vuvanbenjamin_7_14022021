@@ -5,11 +5,11 @@
             </span>
         </router-link>
         <div class="listfiles">                    
-            <h3>Ci-dessous les dernières photos publiées :</h3>
+            <h1>Ci-dessous les dernières photos publiées :</h1>
             <div class="file" v-for="file in files" :key="file.fileName">
                 <div class="file_info"><h4>Par {{file.firstName}} {{file.lastName}} le {{dateTimeFormat(file.date)}}</h4>
                     <img :src="file.fileURL" />
-                    <span @click="deleteFile(file.fileName)" v-if="file.userId == $user.userId || $user.admin == 1" :key="file.fileName">Supprimer</span>
+                    <span @click="deleteFile(file)" v-if="file.userId == $user.userId || $user.admin == 1" :key="file.fileName">Supprimer</span>
                 </div>
             </div>          
         </div>
@@ -49,12 +49,16 @@ export default {
             const event = new Date(parseInt(date));
             return event.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' });
         },
-        deleteFile(){
-            axios.delete(`http://localhost:5000/api/file/` ,
-            {
-                    userId: this.$user.userId,
-                    filename: this.fileName
-            },
+        deleteFile(file){
+            console.log('delete file for userid : ', this.$user.userId)
+            axios.delete(`http://localhost:5000/api/file`,
+                {   
+                    data: {
+                        userId: this.$user.userId,
+                        fileName: file.fileName,
+                        date: file.date
+                    }
+                },
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -62,6 +66,7 @@ export default {
                     }
                 }
             )
+        this.$router.go()
         },
     }
 }
@@ -83,11 +88,11 @@ export default {
         border: none;
         border-radius: 20px;
     }
-    h3{
+    h1{
         margin-top: 20px;
     }
     h4{
-        font-size: 2rem;
+        font-size: 1.7rem;
         margin:10px;
         font-weight: bold;
         color : rgb(153, 11, 11);
@@ -95,5 +100,9 @@ export default {
     }
     img{
         margin: 0 auto;
+        margin-bottom: 15px;
+        box-shadow: 10px 10px 40px 0 rgba(0,0,0);
+        border-radius: 20px;
+        border: 2px solid red;
     }
 </style>

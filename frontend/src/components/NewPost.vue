@@ -46,7 +46,6 @@ export default {
                     })
                 .then(this.visible = false)
                 .then(this.$emit('Posts'))
-
             },
             
         }
