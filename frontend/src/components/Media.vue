@@ -1,7 +1,7 @@
 <template>
 <div class="media">
     <div v-if="!image">
-        <h2>Select an image</h2>
+        <h2>Selectionnez une image/gif</h2>
         <input type="file" @change="onFileChange">
     </div>
     <div v-else class="preview">

@@ -3,11 +3,16 @@
         <router-link to='/'>
             <span class="info">Vous souhaitez réagir aux photos de vos collègues, parlez-en dans le fil d'actualité ! (Si les images sont dessous, c'est que ça marche !) 
             </span>
-        </router-link>      
-        <div class="listfiles">
-            <h3>Ci-dessous les dernières photos publiées :</h3> 
-            {{files}}
-        </div>      
+        </router-link>
+        <div class="listfiles">                    
+            <h3>Ci-dessous les dernières photos publiées :</h3>
+            <div class="file" v-for="file in files" :key="file.fileName">
+                <div class="file_info"><h4>Par {{file.firstName}} {{file.lastName}} le {{dateTimeFormat(file.date)}}</h4>
+                    <img :src="file.fileURL" />
+                    <span @click="deleteFile(file.fileName)" v-if="file.userId == $user.userId || $user.admin == 1" :key="file.fileName">Supprimer</span>
+                </div>
+            </div>          
+        </div>
     </div>
 </template>
 
@@ -23,21 +28,40 @@ export default {
     },
     mounted() {
         if(localStorage.user != undefined){
-            this.getFile();
+            this.getAllFiles();
         }
     },
     methods: {
-        getFile() {
-
-            axios.get(`http://localhost:5000/api/file/`,{
+        getAllFiles() {
+            axios.get(`http://localhost:5000/api/file/`,
+                {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.$token}`
+                }
+                })
+            .then(res => {
+                console.log(res.data)
+                this.files = res.data
+            })
+        },
+        dateTimeFormat(date){
+            const event = new Date(parseInt(date));
+            return event.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' });
+        },
+        deleteFile(){
+            axios.delete(`http://localhost:5000/api/file/` ,
+            {
+                    userId: this.$user.userId,
+                    filename: this.fileName
+            },
+                {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${this.$token}`
                     }
-                })
-            .then(res => {
-                this.files = res.data
-            })
+                }
+            )
         },
     }
 }
@@ -52,6 +76,7 @@ export default {
         flex-direction: column;
         cursor: pointer;
         padding: 13px;
+        margin-bottom: 15px;
         font-size: 1rem;
         color: white;
         background-color: rgb(255, 0, 0);
@@ -60,5 +85,15 @@ export default {
     }
     h3{
         margin-top: 20px;
+    }
+    h4{
+        font-size: 2rem;
+        margin:10px;
+        font-weight: bold;
+        color : rgb(153, 11, 11);
+        text-decoration: underline;
+    }
+    img{
+        margin: 0 auto;
     }
 </style>
