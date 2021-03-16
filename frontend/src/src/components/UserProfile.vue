@@ -41,7 +41,7 @@ export default {
       margin: 50px auto;
       max-width: 800px;
     }
-    h2{
+    h2 {
       margin-bottom: 20px;
       font-size: 1.5rem;
     }
@@ -61,7 +61,7 @@ export default {
       transform: scale(1.1);
       transition-duration: 400ms;
     }
-    span{
+    span {
         font-size: 1.5rem;
     }
     .delete{

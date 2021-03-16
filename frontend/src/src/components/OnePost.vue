@@ -1,12 +1,12 @@
 <template>
     <div class="onePost">
         <div class="post_modify" v-if="!modify">
-            <h2 class="post_title">{{post.title}}</h2>
-            <div class="post_content" v-html="post.content"></div>
+            <h2 class="post_title">{{this.post.title}}</h2>
+            <div class="post_content" v-html="this.post.content"></div>
         </div>
         <div class="modify" v-if="modify">
-            <input type="text" id="modify_title" v-model="post.title">
-            <textarea id="modify_content" v-model="post.content"></textarea>
+            <input type="text" id="modify_title" v-model="this.post.title">
+            <textarea id="modify_content" v-model="modifyContent"></textarea>
         </div>
         <button v-if="authorized && !modify" @click="modify = true">Modifier</button>
         <button v-if="modify" @click="modify = false">Annuler</button>
@@ -23,7 +23,8 @@ export default {
     
     data(){
         return{
-            post: {},
+            modifyContent:'',
+            post: [],
             authorized: false,
             modify: false
         }
@@ -61,12 +62,12 @@ export default {
                     }
                 }
             )
-            this.$router.go(-1)
+            .then(location.href = "/");
         },
         modifyPost(){
             const postId = this.$route.params.id;
-            const title = this.post.title;
-            const content = this.post.content;
+            const title = document.querySelector('#modify_title').value;
+            const content = this.modifyContent;
             axios.put(`http://localhost:5000/api/posts/${postId}`,
                 {
                     postId,
@@ -80,7 +81,7 @@ export default {
                     }
                 }
             )
-            this.$router.go(-1)
+            .then(location.href = "/");
         },
     }
 }
@@ -137,7 +138,7 @@ export default {
         background-color: rgb(43, 42, 42);
         border: none;
         border-radius: 30px;
-        margin: 20px 10px 0 10px;
+        margin: 0px 10px 0 10px;
         outline:none;  
     }
     button:hover{

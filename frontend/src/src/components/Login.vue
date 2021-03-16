@@ -3,9 +3,10 @@
         <img src="../assets/icon-left-font.png" alt="Groupomania logo">
         <nav><router-link to="/" class="active">Se connecter</router-link> | <router-link to="/signup">S'inscrire</router-link></nav>
         <form @submit.prevent = login()>
-            <div class="errormsg">{{message}}</div>            
+            <div class="error-message">{{message}}</div>            
             <input id="log_email" type="text" placeholder="Email" required>
             <input id="log_password" type="password" placeholder="Mot de passe" required>
+
             <button id="log_btn" type="submit">Connexion</button>           
         </form>
     </div>

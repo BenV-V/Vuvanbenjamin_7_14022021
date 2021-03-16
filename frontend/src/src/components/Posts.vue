@@ -6,10 +6,8 @@
                     <span class="info">Posté par {{post.firstname}} {{post.lastname}} le {{dateTimeFormat(post.date)}}</span>
                 </div>  
                 <h2 class="title">{{post.title}}</h2>
-                <div class="content">{{post.content}}</div> 
-                    <div class="card-img-top w-75 mx-auto" v-if="post.attachement">
-                        <img :src="post.attachement" alt="..." class="w-100" />
-                    </div>            
+                <div class="content">{{post.content}}</div>
+                <div class="image">{{post.imageUrl}}</div>                
             </router-link>
         </article>
     </div>
@@ -44,8 +42,7 @@ export default {
             })
         },
         dateTimeFormat(date){
-            const event = new Date(date);
-            return event.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' });
+            return new Date(date).toLocaleDateString('fr-FR', { weekday:'long', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' });
         }
     }
 }

@@ -1,17 +1,17 @@
 <template>
     <div class="comments">  
-
+                <form @submit.prevent= createComment()>
+            <textarea name="newComment" id="new_comment" placeholder="Laissez un commentaire..." required></textarea>
+            <button type="submit" id="send">Envoyer</button>
+        </form>
         <h2 v-if="comments.length > 0">Commentaires :</h2>
         <div class="comment" v-for="comment in comments" :key="comment.id">
-            <div class="comment_info">Par {{comment.firstname}} {{comment.lastname}} le {{dateTimeFormat(comment.created_at)}} 
+            <div class="comment_info">Par {{comment.firstname}} {{comment.lastname}} le {{dateTimeFormat(comment.date)}} 
                 <span @click="deleteComment(comment.id)" v-if="comment.userId == $user.userId || $user.admin == 1" :key="comment.id">Supprimer</span>
             </div>
             {{comment.content}}
         </div>
-        <form @submit.prevent= createComment()>
-            <textarea name="newComment" id="new_comment" placeholder="Laissez un commentaire..." required></textarea>
-            <button type="submit" id="send">Envoyer</button>
-        </form>
+
     </div>
 </template>
 <script>
@@ -73,10 +73,8 @@ export default {
             )
             .then(this.getAllComments());
         },
-        dateTimeFormat(created_at){
-            const event = new Date(created_at);
-
-            return event.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' });
+        dateTimeFormat(date){
+            return new Date(date).toLocaleDateString('fr-FR', { weekday:'long', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' });
         }
     }
 }

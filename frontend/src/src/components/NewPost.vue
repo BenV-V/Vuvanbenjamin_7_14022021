@@ -6,10 +6,13 @@
             <span class="form_close"  @click="visible = false">X Fermer</span>
             <form class="newPostForm" @submit.prevent="createPost()">
                 <label for="title">Titre</label>
-                <input id="newPost_title" type="text" v-model="title" placeholder="Que voulez vous nous dire ?" required>
+                <input id="newPost_title" type="text" placeholder="Que voulez vous nous dire ?" required>
                 <label for="content">Contenu</label>
-                <textarea id="newPost_content" v-model="content" placeholder="Souhaitez-vous expliquer plus précisément vos pensées ?"></textarea>
-                <button id="newPost_btn" type="submit">Publier</button>
+                <textarea id="newPost_content" placeholder="Souhaitez-vous expliquer plus précisément vos pensées ?"></textarea>
+                <div class="custom-file">
+                <input name="file" id="file" type="file" class="custom-file-input" accept="image/*" v-on:change="sendFile()"/>
+                </div>
+                <button id="newPost_btn" type="submit" >Publier</button>
             </form>
           </div>
       </div>
@@ -23,34 +26,40 @@ export default {
     data(){
         return{
             visible: false,
-            content: '',
-            title:'',
+            Post: {
+                file: '',
+            },
         }
     },
     methods: {
-        createPost() {
-            const title = this.title;
-            const content = this.content;
-
+        createPost(){
+            const fd = new FormData();
+            fd.append("file", this.Post.file); 
+            const title = document.getElementById("newPost_title").value;
+            const content = document.getElementById("newPost_content").value;
             axios.post(`http://localhost:5000/api/posts/`,
                     {
                         userId: this.$user.userId,
                         title,
-                        content,
+                        content
                     },
                     {
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${this.$token}`
                         }
-                    })
-                .then(this.visible = false)
-                .then(this.$emit('Posts'))
+                    }
+                )
+                .then( this.visible = false)
+                .then(this.$emit('Posts'));
 
-            },
-            
-        }
+        },
+            sendFile() {
+            this.$data.image = this.filename;
+    },
     }
+
+}
 </script>
 
 <style scoped> 
@@ -103,11 +112,8 @@ export default {
     input{
         font-size: 1rem;
         padding: 10px;
-        margin-bottom: 0 auto 15px auto;
-        text-align: left; 
-        width: 90%;
-        margin-left: auto;
-        margin-right: auto;  
+        margin-bottom: 15px;
+        text-align: left;   
     }
     label{
         color: red;
@@ -117,9 +123,7 @@ export default {
     }
     #newPost_content{
         height: 200px;
-        width: 90%;
-        margin-left: auto;
-        margin-right: auto;
+        width: 100%;
         padding: 10px;
         resize: none;
         overflow-y: scroll;
