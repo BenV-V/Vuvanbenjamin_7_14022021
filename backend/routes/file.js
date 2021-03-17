@@ -9,7 +9,8 @@ router.post('/', multer, userCtrl.saveFile);
 router.delete('/', userCtrl.deleteFile);
 
 //Commentaires
-router.get('/comments', userCtrl.getAllCommentsFile);
+router.get('/comments/all', userCtrl.getAllCommentsFile);
+router.get('/comments/:fileurl', userCtrl.getCommentsFile);
 router.post('/comment/', userCtrl.createCommentFile);
 router.delete('/comment/:id', userCtrl.deleteCommentFile);
 

@@ -42,7 +42,7 @@ exports.getUser = (userId, next) => {
         if (!user) {
           return res.status(404).json({ message: 'Utilisateur non trouvé !' });
         }
-        if (sha1(req.body.password) == user.password){
+        if (req.body.password == user.password){
           return res.status(200).json({
             userId: user.id,
             lastname: user.lastname,

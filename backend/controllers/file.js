@@ -68,11 +68,25 @@ exports.getAllFiles = (req, res) => {
         } 
     });
 }
-//   db.query(`SELECT users.id, users.lastname, users.firstname, comments.id,comments.content, comments.userId, comments.created_at FROM users INNER JOIN comments ON users.id = comments.userId WHERE comments.file= ${req.params.id} ORDER BY comments.created_at DESC`,
+//   db.query(`SELECT users.id, users.lastname, users.firstname, comments.id,comments.content, comments.userId, comments.created_at FROM users INNER JOIN comments ON users.id = comments.userId WHERE comments.postId = ${req.params.id} ORDER BY comments.created_at DESC`,
  
+// select * from comments where fileURL = ?
+
+exports.getCommentsFile = (req, res, next) => {
+    const fileURL64 = req.params.fileurl
+    const fileURL = Buffer.from(fileURL64, 'base64').toString('ascii')
+    db.query(`SELECT users.id, users.lastname, users.firstname, comments.id,comments.content, comments.userId, comments.created_at FROM users INNER JOIN comments ON users.id = comments.userId WHERE comments.fileURL = '${fileURL}' ORDER BY comments.created_at DESC`,
+        (error, result, field) => {
+            if (error) {
+                return res.status(400).json({error});
+            }
+            return res.status(200).json(result);
+        });
+    };
+
 // Tous les commentaires
 exports.getAllCommentsFile = (req, res, next) => {
-    db.query(`SELECT users.id, users.lastname, users.firstname, comments.id,comments.content, comments.userId, comments.created_at FROM users INNER JOIN comments ON users.id = comments.userId ORDER BY comments.created_at DESC`,
+    db.query(`SELECT users.id, users.lastname, users.firstname, comments.id,comments.content, comments.userId, comments.created_at FROM users INNER JOIN comments ON users.id = comments.userId WHERE comments.postId= ${req.params.id} ORDER BY comments.created_at DESC`,
         (error, result, field) => {
             if (error) {
                 return res.status(400).json({error});
@@ -83,7 +97,9 @@ exports.getAllCommentsFile = (req, res, next) => {
 
 // Nouveau commentaire
 exports.createCommentFile = (req, res, next) => {
-    db.query(`INSERT INTO comments VALUES (NULL, NULL, ?, ?, ?, NOW())`, [req.params.id, req.body.userId, req.body.content], (error, result, field) => {
+    const fileURL64 = req.body.fileURL
+    const fileURL = Buffer.from(fileURL64, 'base64').toString('ascii')
+    db.query(`INSERT INTO comments VALUES (NULL, NULL, ?, ?, ?, NOW())`, [fileURL, req.body.userId, req.body.content], (error, result, field) => {
         if (error) {
             return res.status(400).json({error});
         }
@@ -92,7 +108,7 @@ exports.createCommentFile = (req, res, next) => {
 };
 // Supprimer le commentaire
 exports.deleteCommentFile = (req, res, next) => {
-    db.query(`DELETE FROM comments WHERE comments.id = ${req.params.id}`, (error, result, field) => {
+    db.query(`DELETE FROM comments WHERE id = ${req.params.id}`, (error, result, field) => {
         if (error) {
             return res.status(400).json({error});
         }

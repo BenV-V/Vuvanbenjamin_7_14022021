@@ -53,7 +53,7 @@ INSERT INTO `posts` (`id`, `userId`, `title`, `content`, `created_at`, `updated_
 CREATE TABLE `comments` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `postId` int(11) UNSIGNED DEFAULT NULL,
-  `file` VARCHAR(255) DEFAULT NULL,
+  `fileURL` VARCHAR(255) DEFAULT NULL,
   `userId` int(11) UNSIGNED NOT NULL,
   `content` longtext NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
@@ -79,9 +79,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `lastname`, `firstname`, `password`, `email`, `admin`) VALUES
-(1, 'Admin', 'Admin', '8e546356aeb8b5f4aa2b00c350e299842bcdf801', 'admin@groupomania.fr', 1),
-(2, 'Vu Van', 'Ben', 'c178d6544299a1d92cf7c34157e02c97ab7a7339', 'Ben@groupomania.fr',0 ),
-(3, 'Vu Van', 'Noémie', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'benjamin.vu-van@groupomania.fr',0 );
+(1, 'Admin', 'Admin', 'Groupomania.03/21', 'admin@groupomania.fr', 1),
+(2, 'Vu Van', 'Ben', 'testdeben', 'Ben@groupomania.fr',0 ),
+(3, 'Vu Van', 'Noémie', 'test', 'test@groupomania.fr',0 );
 
 -- Index pour la table `comments`
 --

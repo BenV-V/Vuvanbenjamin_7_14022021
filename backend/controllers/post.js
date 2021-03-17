@@ -15,7 +15,6 @@ exports.createPost = (req, res, next) => {
     const date = new Date().getTime()
     db.query(`INSERT INTO posts VALUES (NULL, ?,  ?, ?, NOW(), NOW())`,[req.body.userId, req.body.title, req.body.content],  (error, result, field) => {
         if (error) {
-            console.log('error : ', error)
             return res.status(400).json({error});
         }
         return res.status(200).json(result);
