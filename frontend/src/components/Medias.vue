@@ -17,7 +17,6 @@
                             {{comment.content}}
                         </div>
                         <form @submit.prevent= createCommentFile(file.id,file.fileURL)>
-                            <!-- :id="'purchase-' + item.id" -->
                             <textarea name="newComment" :id="'new_comment_file_' + file.id" placeholder="Laissez un commentaire..." required></textarea>
                             <button type="submit" id="send_comment_file">Envoyer</button>
                         </form>
