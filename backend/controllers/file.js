@@ -68,9 +68,6 @@ exports.getAllFiles = (req, res) => {
         } 
     });
 }
-//   db.query(`SELECT users.id, users.lastname, users.firstname, comments.id,comments.content, comments.userId, comments.created_at FROM users INNER JOIN comments ON users.id = comments.userId WHERE comments.postId = ${req.params.id} ORDER BY comments.created_at DESC`,
- 
-// select * from comments where fileURL = ?
 
 exports.getCommentsFile = (req, res, next) => {
     const fileURL64 = req.params.fileurl
