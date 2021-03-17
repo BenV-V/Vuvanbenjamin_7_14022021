@@ -33,6 +33,7 @@ export default {
             const postId = parseInt(this.$route.params.id);
             const userId = this.$user.userId;
             const content = document.getElementById('new_comment').value;
+
             axios.post(`http://localhost:5000/api/posts/${postId}/comment/`,
                 {
                     userId,
@@ -46,6 +47,7 @@ export default {
                 }
             )
             .then(this.getAllComments());
+
         },
         getAllComments(){
             const postId = parseInt(this.$route.params.id);
@@ -72,6 +74,7 @@ export default {
                 }
             )
             .then(this.getAllComments());
+            this.$router.go()
         },
         dateTimeFormat(created_at){
             const event = new Date(created_at);
@@ -86,12 +89,12 @@ export default {
     .comments{
         max-width: 85%;
         margin: 0 auto;
-        padding: 30px;
+        padding: 0px;
     }
     textarea{
         margin: 50px 0px 20px 0px;
         height: 50px;
-        width: 100%;
+        width: 90%;
         padding: 10px;
         border-radius: 20px;
         border: 2.5px solid rgba(255, 0, 0, 0.212);

@@ -9,17 +9,17 @@
                 <div class="file_info"><h4>Par {{file.firstName}} {{file.lastName}} le {{dateTimeFormat(file.date)}}</h4>
                     <img :src="file.fileURL" />
                     <div class="comments">  
-
-                        <h2 v-if="comments.length > 0">Commentaires :</h2>
-                        <div class="comment" v-for="comment in comments" :key="comment.id">
+                        <h2 v-if="file.comments && file.comments.length > 0">Commentaires :</h2>
+                        <div class="comment" v-for="comment in file.comments" :key="comment.id">
                             <div class="comment_info">Par {{comment.firstname}} {{comment.lastname}} le {{dateFormat(comment.created_at)}} 
                                 <span @click="deleteCommentFile(comment.id)" v-if="comment.userId == $user.userId || $user.admin == 1" :key="comment.id">Supprimer</span>
                             </div>
                             {{comment.content}}
                         </div>
-                        <form @submit.prevent= createCommentFile()>
-                            <textarea name="newComment" id="new_comment" placeholder="Laissez un commentaire..." required></textarea>
-                            <button type="submit" id="send">Envoyer</button>
+                        <form @submit.prevent= createCommentFile(file.id,file.fileURL)>
+                            <!-- :id="'purchase-' + item.id" -->
+                            <textarea name="newComment" :id="'new_comment_file_' + file.id" placeholder="Laissez un commentaire..." required></textarea>
+                            <button type="submit" id="send_comment_file">Envoyer</button>
                         </form>
                     </div>
                     <span @click="deleteFile(file)" v-if="file.userId == $user.userId || $user.admin == 1" :key="file.fileName">Supprimer</span>
@@ -40,25 +40,28 @@ export default {
             comments: []
         }
     },
-    mounted() {
+    async beforeMount() {
         if(localStorage.user != undefined){
-            this.getAllFiles();
-            this.getAllCommentsFile();
+            await this.getAllFiles();
         }
     },
+
     methods: {
-        getAllFiles() {
-            axios.get(`http://localhost:5000/api/file/`,
+        async getAllFiles() {
+            const results = await axios.get(`http://localhost:5000/api/file/`,
                 {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${this.$token}`
                 }
-                })
-            .then(res => {
-                console.log(res.data)
-                this.files = res.data
             })
+            let cpt = 0
+            for (const file of results.data) {
+                file.id = cpt++ 
+                const comments = await this.getCommentsFile(file.fileURL)
+                file.comments = comments
+            }
+            this.files = results.data
         },
         dateTimeFormat(date){
             const event = new Date(parseInt(date));
@@ -82,13 +85,15 @@ export default {
             )
         this.$router.go()
         },
-        createCommentFile(){
+        createCommentFile(id, fileURL){
+            const fileURL64 = window.btoa(fileURL)
             const userId = this.$user.userId;
-            const content = document.getElementById('new_comment').value;
+            const content = document.getElementById(`new_comment_file_${id}`).value;
             axios.post(`http://localhost:5000/api/file/comment/`,
                 {
                     userId,
-                    content
+                    content,
+                    fileURL: fileURL64
                 },
                 {
                     headers: {
@@ -97,11 +102,23 @@ export default {
                     }
                 }
             )
-            .then(this.getAllCommentsFile());
+        this.$router.go()
+        },
+        async getCommentsFile(fileURL){
+            const fileURL64 = window.btoa(fileURL)
+            const result = await axios.get(`http://localhost:5000/api/file/comments/${fileURL64}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.$token}`
+                    }
+                }
+            )
+            return result.data
         },
         getAllCommentsFile(){
 
-            axios.get(`http://localhost:5000/api/file/comments`,
+            axios.get(`http://localhost:5000/api/file/comments/all`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -114,6 +131,7 @@ export default {
             });
         },
         deleteCommentFile(commentId){
+            console.log('comment id : ', commentId)
             axios.delete(`http://localhost:5000/api/file/comment/${commentId}`,
                 {
                     headers: {
@@ -122,7 +140,7 @@ export default {
                     }
                 }
             )
-            .then(this.getAllCommentsFile());
+        this.$router.go()
         },
         dateFormat(created_at){
             const event = new Date(created_at);
@@ -173,7 +191,7 @@ export default {
     textarea{
         margin: 50px 0px 20px 0px;
         height: 50px;
-        width: 100%;
+        width: 90%;
         padding: 10px;
         border-radius: 20px;
         border: 2.5px solid rgba(255, 0, 0, 0.212);

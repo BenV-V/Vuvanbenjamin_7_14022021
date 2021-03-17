@@ -8,7 +8,7 @@
                 <label for="title">Titre</label>
                 <input id="newPost_title" type="text" v-model="title" placeholder="Que voulez vous nous dire ?" required>
                 <label for="content">Contenu</label>
-                <textarea id="newPost_content" v-model="content" placeholder="Souhaitez-vous expliquer plus précisément vos pensées ?"></textarea>
+                <a><textarea id="newPost_content" v-model="content" placeholder="Souhaitez-vous expliquer plus précisément vos pensées ?"></textarea></a>
                 <button id="newPost_btn" type="submit">Publier</button>
             </form>
           </div>

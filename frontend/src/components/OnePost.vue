@@ -2,7 +2,7 @@
     <div class="onePost">
         <div class="post_modify" v-if="!modify">
             <h2 class="post_title">{{post.title}}</h2>
-            <div class="post_content" v-html="post.content"></div>
+            <a><div class="post_content" v-html="post.content"></div></a>
         </div>
         <div class="modify" v-if="modify">
             <input type="text" id="modify_title" v-model="post.title">
