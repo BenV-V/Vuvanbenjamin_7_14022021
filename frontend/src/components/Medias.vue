@@ -1,14 +1,27 @@
 <template>
     <div class="files">  
         <router-link to='/'>
-            <span class="info">Vous souhaitez réagir aux photos de vos collègues, parlez-en dans le fil d'actualité ! (Si les images sont dessous, c'est que ça marche !) 
-            </span>
+            <span class="info">Allez voir le fil d'actualité !</span>
         </router-link>
         <div class="listfiles">                    
             <h1>Ci-dessous les dernières photos publiées :</h1>
             <div class="file" v-for="file in files" :key="file.fileName">
                 <div class="file_info"><h4>Par {{file.firstName}} {{file.lastName}} le {{dateTimeFormat(file.date)}}</h4>
                     <img :src="file.fileURL" />
+                    <div class="comments">  
+
+                        <h2 v-if="comments.length > 0">Commentaires :</h2>
+                        <div class="comment" v-for="comment in comments" :key="comment.id">
+                            <div class="comment_info">Par {{comment.firstname}} {{comment.lastname}} le {{dateFormat(comment.created_at)}} 
+                                <span @click="deleteCommentFile(comment.id)" v-if="comment.userId == $user.userId || $user.admin == 1" :key="comment.id">Supprimer</span>
+                            </div>
+                            {{comment.content}}
+                        </div>
+                        <form @submit.prevent= createCommentFile()>
+                            <textarea name="newComment" id="new_comment" placeholder="Laissez un commentaire..." required></textarea>
+                            <button type="submit" id="send">Envoyer</button>
+                        </form>
+                    </div>
                     <span @click="deleteFile(file)" v-if="file.userId == $user.userId || $user.admin == 1" :key="file.fileName">Supprimer</span>
                 </div>
             </div>          
@@ -23,12 +36,14 @@ export default {
     name: 'Medias',
     data(){
         return{
-            files: []
+            files: [],
+            comments: []
         }
     },
     mounted() {
         if(localStorage.user != undefined){
             this.getAllFiles();
+            this.getAllCommentsFile();
         }
     },
     methods: {
@@ -50,7 +65,6 @@ export default {
             return event.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' });
         },
         deleteFile(file){
-            console.log('delete file for userid : ', this.$user.userId)
             axios.delete(`http://localhost:5000/api/file`,
                 {   
                     data: {
@@ -68,6 +82,53 @@ export default {
             )
         this.$router.go()
         },
+        createCommentFile(){
+            const userId = this.$user.userId;
+            const content = document.getElementById('new_comment').value;
+            axios.post(`http://localhost:5000/api/file/comment/`,
+                {
+                    userId,
+                    content
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.$token}`
+                    }
+                }
+            )
+            .then(this.getAllCommentsFile());
+        },
+        getAllCommentsFile(){
+
+            axios.get(`http://localhost:5000/api/file/comments`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.$token}`
+                    }
+                }
+            )
+            .then(result => {
+                this.comments = result.data;
+            });
+        },
+        deleteCommentFile(commentId){
+            axios.delete(`http://localhost:5000/api/file/comment/${commentId}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.$token}`
+                    }
+                }
+            )
+            .then(this.getAllCommentsFile());
+        },
+        dateFormat(created_at){
+            const event = new Date(created_at);
+
+            return event.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' });
+        }
     }
 }
 </script>
@@ -96,7 +157,6 @@ export default {
         margin:10px;
         font-weight: bold;
         color : rgb(153, 11, 11);
-        text-decoration: underline;
     }
     img{
         margin: 0 auto;
@@ -104,5 +164,55 @@ export default {
         box-shadow: 10px 10px 40px 0 rgba(0,0,0);
         border-radius: 20px;
         border: 2px solid red;
+    }
+    .comments{
+        max-width: 85%;
+        margin: 0 auto;
+        padding: 30px;
+    }
+    textarea{
+        margin: 50px 0px 20px 0px;
+        height: 50px;
+        width: 100%;
+        padding: 10px;
+        border-radius: 20px;
+        border: 2.5px solid rgba(255, 0, 0, 0.212);
+        outline:none;  
+    }
+    button{
+        padding: 15px;
+        font-size: 1rem;
+        color: white;
+        background-color: rgb(255, 0, 0);
+        border: none;
+        border-radius: 30px;
+        margin: 0 20px 0 20px;
+    }
+    button:hover{
+        transform: scale(1.2);
+        transition-duration: 400ms;
+        cursor: pointer;
+    }
+    .comment{
+        padding: 20px 20px 20px 30px;
+        border-left: 5px solid rgb(43, 42, 42);
+        border-right: 5px solid rgb(43, 42, 42);
+        margin-top: 20px;
+        box-shadow: 10px 10px 10px 0 rgba(0,0,0,0.1);
+        text-align: left;
+        transition-duration: .1s;
+        border-radius: 20px;
+    }
+    .comment_info{
+        display: flex;
+        justify-content: space-between;
+        color: rgb(245, 101, 101);
+        font-size: .7rem;
+        margin-bottom: 10px;
+    }
+    span{
+        cursor: pointer;
+        color: rgb(0, 0, 0);
+        font-weight: bold;
     }
 </style>

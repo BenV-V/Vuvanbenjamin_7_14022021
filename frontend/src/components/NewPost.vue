@@ -46,8 +46,8 @@ export default {
                     })
                 .then(this.visible = false)
                 .then(this.$emit('Posts'))
+                this.$router.go()
             },
-            
         }
     }
 </script>
