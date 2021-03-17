@@ -42,7 +42,7 @@ exports.deletePost = (req, res, next) => {
 };
 // Modifier la publication
 exports.modifyPost = (req, res, next) => {
-    db.query(`UPDATE posts SET title = "${req.body.title}", content = "${req.body.content}" WHERE id = ${req.params.id}`, (error, result, field) => {
+    db.query(`UPDATE posts SET title = ?, content = ? WHERE id = ?`,[req.body.title, req.body.content, req.params.id], (error, result, field) => {
         if (error) {
             return res.status(400).json({error});
         }
@@ -51,7 +51,7 @@ exports.modifyPost = (req, res, next) => {
 };
 // Tous les commentaires
 exports.getAllComments = (req, res, next) => {
-    db.query(`SELECT users.id, users.lastname, users.firstname, comments.id,comments.content, comments.userId, comments.created_at FROM users INNER JOIN comments ON users.id = comments.userId WHERE comments.postId = ${req.params.id} ORDER BY comments.created_at DESC`,
+    db.query(`SELECT users.id, users.lastname, users.firstname, comments.id, comments.content, comments.userId, comments.created_at FROM users INNER JOIN comments ON users.id = comments.userId WHERE comments.postId = ${req.params.id} ORDER BY comments.created_at DESC`,
         (error, result, field) => {
             if (error) {
                 return res.status(400).json({error});
@@ -59,9 +59,10 @@ exports.getAllComments = (req, res, next) => {
             return res.status(200).json(result);
         });
     };
+
 // Nouveau commentaire
 exports.createComment = (req, res, next) => {
-    db.query(`INSERT INTO comments VALUES (NULL, ${req.params.id}, ${req.body.userId}, "${req.body.content}", NOW() )`, (error, result, field) => {
+    db.query(`INSERT INTO comments VALUES (NULL, ?, NULL, ?, ?, NOW())`, [req.params.id, req.body.userId, req.body.content], (error, result, field) => {
         if (error) {
             return res.status(400).json({error});
         }

@@ -8,4 +8,9 @@ router.get('/', multer, userCtrl.getAllFiles);
 router.post('/', multer, userCtrl.saveFile);
 router.delete('/', userCtrl.deleteFile);
 
+//Commentaires
+router.get('/comments', userCtrl.getAllCommentsFile);
+router.post('/comment/', userCtrl.createCommentFile);
+router.delete('/comment/:id', userCtrl.deleteCommentFile);
+
 module.exports = router;

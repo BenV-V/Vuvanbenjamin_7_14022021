@@ -1,8 +1,8 @@
 const path = require('path');
 const fs = require('fs');
 const { getUser } = require('./user')
-
 const imgPath = `${path.resolve(__dirname)}/../images`
+const db = require("../config/db");
 
 //Création d'une image
 exports.saveFile = (req, res) => {
@@ -68,3 +68,34 @@ exports.getAllFiles = (req, res) => {
         } 
     });
 }
+//   db.query(`SELECT users.id, users.lastname, users.firstname, comments.id,comments.content, comments.userId, comments.created_at FROM users INNER JOIN comments ON users.id = comments.userId WHERE comments.file= ${req.params.id} ORDER BY comments.created_at DESC`,
+ 
+// Tous les commentaires
+exports.getAllCommentsFile = (req, res, next) => {
+    db.query(`SELECT users.id, users.lastname, users.firstname, comments.id,comments.content, comments.userId, comments.created_at FROM users INNER JOIN comments ON users.id = comments.userId ORDER BY comments.created_at DESC`,
+        (error, result, field) => {
+            if (error) {
+                return res.status(400).json({error});
+            }
+            return res.status(200).json(result);
+        });
+    };
+
+// Nouveau commentaire
+exports.createCommentFile = (req, res, next) => {
+    db.query(`INSERT INTO comments VALUES (NULL, NULL, ?, ?, ?, NOW())`, [req.params.id, req.body.userId, req.body.content], (error, result, field) => {
+        if (error) {
+            return res.status(400).json({error});
+        }
+        return res.status(200).json(result);
+    });
+};
+// Supprimer le commentaire
+exports.deleteCommentFile = (req, res, next) => {
+    db.query(`DELETE FROM comments WHERE comments.id = ${req.params.id}`, (error, result, field) => {
+        if (error) {
+            return res.status(400).json({error});
+        }
+        return res.status(200).json(result);
+    });
+};

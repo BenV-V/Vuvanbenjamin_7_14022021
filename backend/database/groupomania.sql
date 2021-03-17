@@ -52,8 +52,8 @@ INSERT INTO `posts` (`id`, `userId`, `title`, `content`, `created_at`, `updated_
 
 CREATE TABLE `comments` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `postId` int(11) UNSIGNED,
-  'file' string,
+  `postId` int(11) UNSIGNED DEFAULT NULL,
+  `file` VARCHAR(255) DEFAULT NULL,
   `userId` int(11) UNSIGNED NOT NULL,
   `content` longtext NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
