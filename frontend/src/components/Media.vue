@@ -15,7 +15,6 @@
 
 <script>
 import axios from 'axios';
-
 export default {
     name: 'Media',
     data(){
@@ -57,7 +56,6 @@ export default {
            this.$router.go()
         }
     }
-
 }
 </script>
 

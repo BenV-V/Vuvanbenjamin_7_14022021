@@ -30,7 +30,6 @@
 
 <script>
 import axios from 'axios';
-
 export default {
     name: 'Medias',
     data(){
@@ -44,7 +43,6 @@ export default {
             await this.getAllFiles();
         }
     },
-
     methods: {
         async getAllFiles() {
             const results = await axios.get(`http://localhost:5000/api/file/`,
@@ -116,7 +114,6 @@ export default {
             return result.data
         },
         getAllCommentsFile(){
-
             axios.get(`http://localhost:5000/api/file/comments/all`,
                 {
                     headers: {
@@ -143,7 +140,6 @@ export default {
         },
         dateFormat(created_at){
             const event = new Date(created_at);
-
             return event.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' });
         }
     }
